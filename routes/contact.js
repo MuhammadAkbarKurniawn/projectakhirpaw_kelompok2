@@ -83,7 +83,6 @@ router.put('/contacts/:id', (req, res) => {
 });
 
 // Endpoint untuk menghapus kontak berdasarkan ID
-// Endpoint untuk menghapus kontak berdasarkan ID
 router.delete('/contacts/:id', (req, res) => {
     const contactId = req.params.id;
 
@@ -95,7 +94,9 @@ router.delete('/contacts/:id', (req, res) => {
         if (results.affectedRows === 0) {
             return res.status(404).json({ error: 'Contact not found' });
         }
-        res.status(204).send();  // Return No Content (204)
+        res.json({
+            message: 'Contact deleted successfully',
+        });
     });
 });
 

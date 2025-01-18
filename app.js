@@ -44,7 +44,7 @@ app.set('view engine', 'ejs');
 
 
 
-app.get('/', (req, res) => {
+app.get('/',isAuthenticated, (req, res) => {
     db.query('SELECT * FROM produk', (err, produk) => {
         if (err) return res.status(500).send('Internal Server Error');
         res.render('user', {
