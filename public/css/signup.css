@@ -10,6 +10,8 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background:linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)),
+               url('/public/img/sayur1.jpg') no-repeat center center/cover;
 }
 .navbar{
     display: none;
