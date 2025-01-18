@@ -1,0 +1,296 @@
+<link rel="stylesheet" href="../public/css/produk.css">
+
+<div class="container mt-5">
+    <h1 class="text-center">Product Kami</h1>
+
+    <form id="addProductForm" class="my-4">
+        <div class="input-group">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
+        </div>
+    </form>
+
+    <!-- Tabel untuk menampilkan produk -->
+    <table class="table table-bordered" id="productTable">
+        <thead>
+            <tr>
+                <th scope="col">Product Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Price</th>
+                <th scope="col">Image</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody id="productList">
+            <!-- Data produk akan dimasukkan ke dalam tabel ini -->
+        </tbody>
+    </table>
+
+    <div id="addProductModal" class="modal fade" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addProductFormModal">
+                        <div class="form-group">
+                            <label for="newProductName">Product Name</label>
+                            <input type="text" id="newProductName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newProductDescription">Description</label>
+                            <input type="text" id="newProductDescription" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newProductPrice">Price</label>
+                            <input type="text" id="newProductPrice" class="form-control" required>
+                        </div>
+                        <div id="fileInputContainer" style="display:none;">
+                            <label for="newProductImage">Image</label>
+                            <input type="file" id="newProductImage" name="image" class="form-control" accept="image/*" />
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Add Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal fade" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProductForm">
+                        <div class="form-group">
+                            <label for="editProductName">Product Name</label>
+                            <input type="text" id="editProductName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editProductDescription">Description</label>
+                            <input type="text" id="editProductDescription" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editProductPrice">Price</label>
+                            <input type="text" id="editProductPrice" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editProductImage">Image</label>
+                            <input type="file" id="editProductImage" name="image" class="form-control" accept="image/*" />
+                            <img id="currentProductImage" src="" alt="Current Product Image" width="100" height="100" class="mt-2" />
+                        </div>                        
+                        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container text-center">
+        <p>&copy; 2024 Product App. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let produk = [];
+    const productListContainer = document.getElementById('productList');
+    const addProductModal = new bootstrap.Modal(document.getElementById('addProductModal'));
+    const fileInputContainer = document.getElementById('fileInputContainer');
+    const addProductFormModal = document.getElementById('addProductFormModal');
+    const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+    const editProductForm = document.getElementById('editProductForm');
+    const editProductNameInput = document.getElementById('editProductName');
+    const editProductDescriptionInput = document.getElementById('editProductDescription');
+    const editProductPriceInput = document.getElementById('editProductPrice');
+    let currentEditId = null;
+
+    // Fungsi untuk menampilkan produk
+    function renderproduk() {
+        // Menghapus semua produk yang lama di DOM
+        productListContainer.innerHTML = '';
+
+        // Loop untuk menampilkan produk dalam tabel
+        produk.forEach(product => {
+            const row = document.createElement('tr');
+            row.setAttribute('data-id', product.id_produk);
+            row.innerHTML = `
+                <td>${product.nama_produk}</td>
+                <td>${product.deskripsi}</td>
+                <td>${product.harga}</td>
+                <td>${product.image_url ? `<img src="${product.image_url}" alt="Product Image" width="50" height="50" />` : ''}</td>
+                <td>
+                    <button class="btn btn-sm btn-success editBtn" data-id="${product.id_produk}">Edit</button>
+                    <button class="btn btn-sm btn-danger deleteBtn" data-id="${product.id_produk}">Delete</button>
+                </td>
+            `;
+            productListContainer.appendChild(row);
+        });
+
+        // Pasang event listener untuk tombol Edit dan Delete
+        document.querySelectorAll('.editBtn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                currentEditId = btn.getAttribute('data-id');
+                const product = produk.find(p => p.id_produk == currentEditId);
+
+                // Isi form edit dengan data produk yang dipilih
+                editProductNameInput.value = product.nama_produk;
+                editProductDescriptionInput.value = product.deskripsi;
+                editProductPriceInput.value = product.harga;
+
+                // Menampilkan gambar jika ada
+                const currentImage = document.getElementById('currentProductImage');
+                if (product.image_url) {
+                    currentImage.src = product.image_url;
+                    currentImage.style.display = 'block';
+                } else {
+                    currentImage.style.display = 'none';
+                }
+
+                $('#editProductImage').val('');
+                editModal.show();
+            });
+        });
+
+        document.querySelectorAll('.deleteBtn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const id = btn.getAttribute('data-id');
+                $.ajax({
+                    url: '/produk/' + id,
+                    type: 'DELETE',
+                    success: function () {
+                        produk = produk.filter(product => product.id_produk != id);
+                        renderproduk(); // Refresh list produk setelah dihapus
+                    }
+                });
+            });
+        });
+    }
+
+    // Form untuk menambah produk
+    $('#addProductFormModal').on('submit', function (e) {
+        e.preventDefault();
+        const newProductName = $('#newProductName').val().trim();
+        const newProductDescription = $('#newProductDescription').val().trim();
+        const newProductPrice = $('#newProductPrice').val().trim();
+        if (!newProductName || !newProductDescription || !newProductPrice) return;
+
+        const image = $('#newProductImage')[0].files[0];
+        const formData = new FormData();
+        formData.append('nama_produk', newProductName);
+        formData.append('deskripsi', newProductDescription);
+        formData.append('harga', newProductPrice);
+        if (image) formData.append('image', image);
+
+        $.ajax({
+            url: '/produk',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (newProduct) {
+                produk.push(newProduct);
+
+                // Menambahkan elemen baru ke dalam tabel
+                const row = document.createElement('tr');
+                row.setAttribute('data-id', newProduct.id_produk);
+                row.innerHTML = `
+                    <td>${newProduct.nama_produk}</td>
+                    <td>${newProduct.deskripsi}</td>
+                    <td>${newProduct.harga}</td>
+                    <td>${newProduct.image_url ? `<img src="${newProduct.image_url}" alt="Product Image" width="50" height="50" />` : ''}</td>
+                    <td>
+                        <button class="btn btn-sm btn-success editBtn" data-id="${newProduct.id_produk}">Edit</button>
+                        <button class="btn btn-sm btn-danger deleteBtn" data-id="${newProduct.id_produk}">Delete</button>
+                    </td>
+                `;
+                productListContainer.appendChild(row);
+
+                $('#addProductModal').modal('hide');
+                $('.modal-backdrop').remove();
+                $('#addProductFormModal')[0].reset();
+                fileInputContainer.style.display = 'none';
+                renderproduk();
+                addProductModal.hide();
+                $('.modal-backdrop').remove();
+            },
+            error: function (error) {
+                console.error("Error adding product:", error.responseText);
+            }
+        });
+    });
+
+    // Form untuk mengedit produk
+    $('#editProductForm').on('submit', function (e) {
+        e.preventDefault();
+
+        const updatedProductName = $('#editProductName').val().trim();
+        const updatedProductDescription = $('#editProductDescription').val().trim();
+        const updatedProductPrice = $('#editProductPrice').val().trim();
+        const newImage = $('#editProductImage')[0].files[0];
+
+        if (!updatedProductName || !updatedProductDescription || !updatedProductPrice) return;
+
+        const formData = new FormData();
+        formData.append('nama_produk', updatedProductName);
+        formData.append('deskripsi', updatedProductDescription);
+        formData.append('harga', updatedProductPrice);
+        if (newImage) formData.append('image', newImage);
+
+        $.ajax({
+            url: '/produk/' + currentEditId,
+            type: 'PUT',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (updatedProduct) {
+                const product = produk.find(p => p.id_produk == currentEditId);
+                product.nama_produk = updatedProduct.nama_produk;
+                product.deskripsi = updatedProduct.deskripsi;
+                product.harga = updatedProduct.harga;
+                if (updatedProduct.image_url) {
+                    product.image_url = updatedProduct.image_url;
+                }
+
+                renderproduk(); // Perbarui produk yang diedit
+                editModal.hide();
+                $('.modal-backdrop').remove();
+            },
+            error: function (error) {
+                console.error("Error updating product:", error.responseText);
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $.get('/produk', function (data) {
+            produk = data;
+            renderproduk(); // Render produk saat pertama kali dimuat
+        });
+    });
+
+    // Tampilkan file input saat modal Add Product dibuka
+    $('#addProductModal').on('shown.bs.modal', function () {
+        fileInputContainer.style.display = 'block';
+        $('#newProductName').val('');
+        $('#newProductDescription').val('');
+        $('#newProductPrice').val('');
+        $('#newProductImage').val('');
+    });
+
+    // Sembunyikan file input dan reset form saat modal Add Product ditutup
+    $('#addProductModal').on('hidden.bs.modal', function () {
+        $('.modal-backdrop').remove();
+        $('#newProductName').val('');
+        $('#newProductDescription').val('');
+        $('#newProductPrice').val('');
+        $('#newProductImage').val('');
+    });
+</script>

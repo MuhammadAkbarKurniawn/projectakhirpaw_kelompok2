@@ -1,0 +1,367 @@
+/* Resetting some basic styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    position: relative;
+    width: 100%;
+    height: 92vh;
+    background:linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)),
+               url('/public/img/sayur1.jpg') no-repeat center center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+  }
+  
+  header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1;
+  }  
+  
+  header .container {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+  
+  header .container h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 0;
+    color: #ffffff;
+  }
+  
+  header .container p {
+    font-size: 1.2rem;
+    margin: 10px 0 0;
+    color: #ffffff;
+  }
+  
+  .separator {
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), #f4f4f9); /* Transisi dari hijau ke putih */
+    width: 100%;
+  }
+  
+/* Body background and font */
+body {
+    background-color: #f4f4f9 ;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+}
+
+
+/* Container styling */
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    margin: 40px 0;
+}
+
+/* Image styling */
+.image-container {
+    flex: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8); /* Initial shadow effect */
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease; /* Smooth transition for shadow */
+}
+
+.sayuran-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Text styling */
+.text-container {
+    flex: 2;
+    text-align: left;
+}
+
+.text-container p {
+    font-size: 1.125rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Container styling */
+.container {
+    flex: 1;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.container .row {
+    max-width: 900px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+
+/* Product List Styles */
+.product-card {
+    margin-bottom: 20px;
+}
+
+.card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #2c786c;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.card-price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #28a745;
+}
+
+.card img {
+    /* max-width: 100%;
+    height: auto; */
+    width: 125px;
+    height: 125px;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+
+.btn {
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2c786c;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-sm {
+    font-size: 0.875rem;
+}
+
+
+/* Modal Styles */
+.modal-content {
+    border-radius: 10px;
+}
+
+.modal-header {
+    background-color:#2c786c;
+    color: #fff;
+    border-bottom: none;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 1rem;
+    color: #333;
+}
+
+.form-group input {
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ced4da;
+    margin-top: 5px;
+}
+
+.form-group input:focus {
+    border-color: #2c786c;
+}
+
+/* Styling untuk section kontak */
+.contact {
+    background: #f4f4f9;
+    padding: 50px 20px;
+    text-align: center;
+  }
+  
+  .contact h2 {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .contact h2 span {
+    color: #28a745; /* Warna hijau untuk menonjolkan kata */
+  }
+  
+  .contact p {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  /* Styling untuk layout row */
+  .contact .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  
+  /* Styling untuk Google Maps iframe */
+  .contact iframe {
+    flex: 1;
+    max-width: 600px;
+    height: 450px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styling untuk form */
+  .contact form {
+    flex: 1;
+    max-width: 500px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .contact .input-group {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .contact .input-group i {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 18px;
+  }
+  
+  .contact .input-group input,
+  .contact .input-group textarea {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+  }
+  
+  .contact .input-group textarea {
+    resize: none;
+    height: 100px;
+  }
+  
+  .contact .input-group input:focus,
+  .contact .input-group textarea:focus {
+    border-color: #28a745;
+    outline: none;
+  }
+  
+  .contact .btn {
+    background: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .contact .btn:hover {
+    background: #45a049;
+  }
+  
+
+/* Button styling */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2c786c;
+}
+
+.footer {
+    background-color: #2c786c;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 1rem;
+    margin-top: auto;
+}
+
+.footer p {
+    margin: 0;
+}

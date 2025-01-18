@@ -1,0 +1,13 @@
+    <link rel="stylesheet" href="/public/css/index.css">
+    <header>
+        <h1>Detail Produk</h1>
+    </header>
+    <div class="container">
+        <h2><%= produk.nama_produk %></h2>
+        <p><strong>Deskripsi:</strong> <%= produk.deskripsi %></p>
+        <p><strong>Harga:</strong> <%= produk.harga %></p>
+        <% if (produk.image_url) { %>
+            <img src="<%= produk.image_url %>" alt="<%= produk.nama_produk %>" width="200">
+        <% } %>
+        <a href="/" class="btn">Kembali ke Daftar Produk</a>
+    </div>
