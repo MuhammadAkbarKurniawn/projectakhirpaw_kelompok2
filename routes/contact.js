@@ -83,22 +83,24 @@ router.put('/contacts/:id', (req, res) => {
 });
 
 // Endpoint untuk menghapus kontak berdasarkan ID
-router.delete('/contacts/:id', (req, res) => {
+router.delete('/contacts/:id', async (req, res) => {
     const contactId = req.params.id;
 
-    db.query('DELETE FROM contact WHERE id = ?', [contactId], (err, results) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
+    try {
+        const [results] = await db.promise().query('DELETE FROM contact WHERE id = ?', [contactId]);
+
         if (results.affectedRows === 0) {
             return res.status(404).json({ error: 'Contact not found' });
         }
-        res.json({
-            message: 'Contact deleted successfully',
-        });
-    });
+
+        res.status(204).send();
+    } catch (err) {
+        console.error('Database error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
+
+
 
 
 module.exports = router;
